@@ -1,0 +1,40 @@
+﻿<Properties StartupConfiguration="{406147EB-8A5A-4158-BED6-D288CB501B61}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="CA/Controllers/LoginController.cs">
+    <Files>
+      <File FileName="CA/Entities/User.cs" Line="14" Column="1" />
+      <File FileName="CA/Db/AppDbContext.cs" Line="24" Column="6" />
+      <File FileName="CA/Controllers/HomeController.cs" Line="1" Column="1" />
+      <File FileName="CA/Program.cs" Line="5" Column="1" />
+      <File FileName="CA/Controllers/LoginController.cs" Line="36" Column="14" />
+      <File FileName="CA/Controllers/RegisterControllerController.cs" Line="6" Column="1" />
+      <File FileName="CA/Controllers/WeatherForecastController.cs" Line="1" Column="1" />
+      <File FileName="CA/Controllers/PostTextController.cs" Line="38" Column="29" />
+      <File FileName="CA/Entities/Text.cs" Line="24" Column="1" />
+      <File FileName="CA/Migrations/20230207052305_InitialCreate.cs" Line="1" Column="1" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="CA" expanded="True">
+            <Node name="CA" expanded="True">
+              <Node name="Controllers" expanded="True">
+                <Node name="LoginController.cs" selected="True" />
+              </Node>
+              <Node name="Db" expanded="True" />
+              <Node name="Entities" expanded="True" />
+              <Node name="Migrations" expanded="True" />
+              <Node name="Models" expanded="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.ItemProperties.CA PreferredExecutionTarget="/Applications/Google Chrome.app" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+</Properties>
