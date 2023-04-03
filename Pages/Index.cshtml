@@ -1,0 +1,66 @@
+@page
+@{
+    ViewData["Title"] = "Home page";
+}
+
+
+<div id="video-container">
+    <video id="video" autoplay loop muted>
+        <source src="Background.mp4" type="video/mp4">
+        <source src="Background1.mp4" type="video/mp4">
+        Your browser does not support the video tag.   
+    </video>
+    <button id="left-arrow" class="arrow-button">&lt;</button>
+    <button id="right-arrow" class="arrow-button">&gt;</button>
+    <div class="indicator">
+        <span class="dot active"></span>
+        <span class="dot"></span>
+    </div>
+</div>
+
+<script>
+    var video = document.getElementById("video");
+    var leftArrow = document.getElementById("left-arrow");
+    var rightArrow = document.getElementById("right-arrow");
+    var indicator = document.querySelector(".indicator");
+    var dots = document.querySelectorAll(".dot");
+    var activeIndex = 0;
+    var videos = ["Background.mp4", "Background1.mp4"];
+
+    function playVideo() {
+        video.src = videos[activeIndex];
+        video.play();
+        dots[activeIndex].classList.add("active");
+    }
+
+    playVideo();
+
+    leftArrow.addEventListener("click", function() {
+        if (activeIndex > 0) {
+            activeIndex--;
+        } else {
+            activeIndex = videos.length - 1;
+        }
+        video.pause();
+        video.currentTime = 0;
+        dots.forEach(function(dot) {
+            dot.classList.remove("active");
+        });
+        playVideo();
+    });
+
+    rightArrow.addEventListener("click", function() {
+        if (activeIndex < videos.length - 1) {
+            activeIndex++;
+        } else {
+            activeIndex = 0;
+        }
+        video.pause();
+        video.currentTime = 0;
+        dots.forEach(function(dot) {
+            dot.classList.remove("active");
+        });
+        playVideo();
+    });
+</script>
+

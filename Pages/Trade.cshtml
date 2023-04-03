@@ -1,0 +1,203 @@
+﻿@page "/trade"
+@model CA.Pages.TradeModel
+
+<script src="https://cdn.jsdelivr.net/npm/echarts@4.9.0/dist/echarts.min.js"></script>
+<div style="display: flex; flex-direction: row; justify-content: space-between;">
+    <div style="width: 70%; height: 500px;">
+        <div id="line-chart" style="width: 100%; height: 100%;"></div>
+    </div>
+    <div style="width: 30%; height: 500px; display: flex; flex-direction: column; justify-content: space-between;">
+        <div style="height: 60%;">
+            <div id="bar-chart1" style="width: 100%; height: 100%;"></div>
+        </div>
+        <div style="height: 40%;">
+            <div id="bar-chart2" style="width: 100%; height: 100%;"></div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    window.onload = function () {
+        var chartDom = document.getElementById('line-chart');
+        var barChartDom = document.getElementById('bar-chart1');
+        var barChartDom2 = document.getElementById('bar-chart2');
+        var myChart = echarts.init(chartDom);
+        var myBarChart = echarts.init(barChartDom);
+        var myBarChart2 = echarts.init(barChartDom2);
+        var option;
+        var option2;
+        var option3
+        var name = '@ViewData["name"]' || "World";
+
+        var countryData = @Html.Raw(Json.Serialize(Model.CountryData));
+
+        var importData = countryData[name][0]
+        var exportData = countryData[name][1]
+        var BOP = countryData[name][2]
+        var GDP = countryData[name][3]
+        //console.log(BOP)
+        var BOT = [];
+
+        for (var i = 0; i < importData.length; i++) {
+            BOT[i] = exportData[i] - importData[i];
+        }
+
+        option = {
+            title: {
+                text: ''
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            legend: {},
+            toolbox: {
+                show: true,
+                feature: {
+                    magicType: { type: ['line'] },
+                    restore: {},
+                    saveAsImage: {}
+                }
+            },
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data: ['2015', '2016', '2017', '2018', '2019', '2020', '2021']
+            },
+            yAxis: {
+                type: 'value',
+                    axisLabel: {
+                                formatter: function (value, index) {
+                                return (value / 1000000000).toFixed(2) + 'B';
+                                }
+                        }
+            },
+            series: [
+                {
+                    name: 'Australia Export to ' + name,
+                    type: 'line',
+                    data: exportData,
+                    markPoint: {
+                        data: [
+                            { type: 'max', name: 'Max' },
+                            { type: 'min', name: 'Min' }
+                        ]
+                    }
+                },
+                {
+                    name: 'Australia Import from ' + name,
+                    type: 'line',
+                    data: importData,
+                    markPoint: {
+                        data: [
+                            { type: 'max', name: 'Max' },
+                            { type: 'min', name: 'Min' }
+                        ]
+                    }
+                },
+                {
+                    name:'Balance of Trade ',
+                    type: 'line',
+                    data: BOT,
+                    markPoint: {
+                        data: [
+                            { type: 'max', name: 'Max' },
+                            { type: 'min', name: 'Min' }
+                        ]
+                    }
+                }
+            ]
+        };
+
+        option && myChart.setOption(option);
+        option2 = {
+            title: {
+                text: ''
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            legend: {},
+            toolbox: {
+                show: true,
+                feature: {
+                    magicType: { type: ['bar'] },
+                    restore: {},
+                    saveAsImage: {}
+                }
+            },
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data: ['2015', '2016', '2017', '2018', '2019', '2020', '2021']
+            },
+            yAxis: {
+                type: 'value',
+                axisLabel: {
+                                formatter: function (value, index) {
+                                return (value / 1000000) + 'M';
+                                }
+                        }
+            },
+            series: [
+                {
+                    name:'Balance of Payment',
+                    type: 'bar',
+                    data: BOP,
+                    markPoint: {
+                        data: [
+                            { type: 'max', name: 'Max' },
+                            { type: 'min', name: 'Min' }
+                        ]
+                    }
+                },
+              
+            ]
+        };
+
+        option2 && myBarChart.setOption(option2);
+        option3 = {
+            title: {
+                text: ''
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            legend: {},
+            toolbox: {
+                show: true,
+                feature: {
+                    magicType: { type: ['bar'] },
+                    restore: {},
+                    saveAsImage: {}
+                }
+            },
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data: ['2015', '2016', '2017', '2018', '2019', '2020', '2021']
+            },
+            yAxis: {
+                type: 'value',
+                axisLabel: {
+                    formatter: '{value}%'
+                }
+            },
+            series: [
+                {
+                    name: 'GDP',
+                    type: 'bar',
+                    data: GDP,
+                    markPoint: {
+                        data: [
+                            { type: 'max', name: 'Max' },
+                            { type: 'min', name: 'Min' }
+                        ]
+                    }
+                },
+
+            ]
+        };
+
+        option3 && myBarChart2.setOption(option3);
+    };
+</script>

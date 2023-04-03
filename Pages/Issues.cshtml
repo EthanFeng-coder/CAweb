@@ -1,0 +1,85 @@
+@page
+@model CA.Pages.IssuesModel
+@{
+}
+
+
+<div class="category-container">
+  <button class="category-btn" data-category="All">All</button>
+  <button class="category-btn" data-category="Economic">Economic</button>
+  <button class="category-btn" data-category="Political">Political</button>
+  <button class="category-btn" data-category="Other">Other</button>
+</div>
+
+
+<div id="pdf-container">
+    @foreach (var pdf in Model.PdfFiles)
+    {
+        <div class="pdf-item" data-category="@pdf.Category">
+            <a href="@pdf.WebPath" target="_blank" class="pdf-link">
+                <object data="@pdf.WebPath#page=1" type="application/pdf" width="200" height="200">
+                    <param name="src" value="@pdf.WebPath#=page1" />
+                </object>
+            </a>
+            <button class="read-button" data-zoom="50">Read</button>
+        </div>
+    }
+</div>
+
+<script>
+    var categoryButtons = document.querySelectorAll(".category-btn");
+    var pdfItems = document.querySelectorAll(".pdf-item");
+    var readButtons = document.querySelectorAll(".read-button");
+
+    categoryButtons.forEach(function (button) {
+        button.addEventListener("click", function () {
+            var category = button.getAttribute("data-category");
+            filterPdfItems(category);
+        });
+    });
+
+    readButtons.forEach(function (button) {
+        button.addEventListener("click", function (event) {
+            event.stopPropagation(); // prevent link from opening
+            var pdfItem = button.parentElement;
+            var pdfLink = pdfItem.querySelector(".pdf-link");
+            var zoomValue = button.getAttribute("data-zoom");
+            pdfLink.setAttribute("data-zoom", zoomValue);
+            pdfLink.click();
+        });
+    });
+
+    function filterPdfItems(category) {
+        pdfItems.forEach(function (item) {
+            if (category === "All" || item.getAttribute("data-category") === category) {
+                item.style.display = "block";
+            } else {
+                item.style.display = "none";
+            }
+        });
+    }
+
+    window.onload = function() {
+      // Wait for the DOM to fully load before checking the authentication token
+      var authToken = getCookie('authToken');
+      if (authToken !== '') {
+        
+      } else {
+       	// User is not authenticated, redirect to login page
+        alert("Please login to visit this page");
+        window.location.href = '/Re-LO';
+      }
+    }
+
+    function getCookie(name) {
+      var cookieArr = document.cookie.split(';');
+      for (var i = 0; i < cookieArr.length; i++) {
+        var cookiePair = cookieArr[i].split('=');
+        if (name === cookiePair[0].trim()) {
+          return decodeURIComponent(cookiePair[1]);
+        }
+      }
+      return '';
+    }
+</script>
+

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - CA</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/CA.styles.css" asp-append-version="true" />
+    
+</head>
+<body>
+<div>
+    <header>
+        <div id="flagContainer" style="display: flex; overflow:hidden">
+        </div>
+       
+ <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+  <div class="container-fluid">
+    <a class="navbar-brand" asp-page="/Index">
+      <img src="thumbnail_CapitalAnalystLogo2.png" alt="CapitalAnalyst Logo" style="height:50px">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse flex-grow-0" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-dark" asp-area="" asp-page="/Issues">Issues</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-dark" asp-area="" asp-page="/Trade">Trade</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-dark" asp-area="" asp-page="/About">About</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-dark" asp-area="" asp-page="/Contact">Contact</a>
+        </li>
+        <li class="nav-item">
+          <a id="signin-btn" class="nav-link text-dark" asp-area="" asp-page="/Re-LO">Sign in</a>
+        </li>
+        <li class="nav-item">
+          <a id="account-btn" class="nav-link text-dark" asp-area="" asp-page="/Account">Account</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+</header>
+</div>
+
+        <script>
+  const authToken = getCookie('authToken'); // Get the value of the "authToken" cookie
+
+if (authToken) {
+    // User is logged in
+    document.getElementById('signin-btn').style.display = 'none'; // Hide "Sign in" button
+    document.getElementById('account-btn').style.display = 'block'; // Show "Account" button
+} else {
+    // User is not logged in
+    document.getElementById('signin-btn').style.display = 'block'; // Show "Sign in" button
+    document.getElementById('account-btn').style.display = 'none'; // Hide "Account" button
+}
+
+// Function to get the value of a cookie by name
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+}
+        </script>
+
+ 
+
+
+    <!--<footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2023 - CA - <a asp-area="" asp-page="/Privacy">Privacy</a>
+        </div>
+    </footer>-->
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+<div style="overflow:hidden">
+      @RenderBody()
+</div>
+</html>

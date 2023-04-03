@@ -1,0 +1,100 @@
+@page
+@model CA.Pages.AccountModel
+@{
+}
+<div class="text-right" style="text-align: left;">
+  <button id="logout-btn" style="background-color: #007bff; color: #fff; border: none; padding: 10px; border-radius: 5px;">Logout</button>
+</div>
+<h1 style="text-align: left;">Welcome to your account, <span id="user-name"></span>!</h1>
+<div id="shopping-cart" style="display: flex; flex-wrap: wrap;">
+  @foreach (var item in Model.CartItems)
+  {
+    <div class="cart-item" style="margin: 10px; padding: 10px; border: 1px solid #ccc; width: 300px;">
+      <div class="cart-item-image">
+        <img src="@item.ImageUrl" alt="@item.ProductName" style="max-width: 100%;">
+      </div>
+      <div class="cart-item-details" style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+          <p>Price: $@item.Price</p>
+          <p>Quantity: <input type="number" name="quantity" value="@item.Quantity"></p>
+        </div>
+        <div class="pay-section">
+          <button class="pay-button" data-item-id="@item.Id" style="background-color: #007bff; color: #fff; border: none; padding: 10px; border-radius: 5px;">Pay</button>
+        </div>
+      </div>
+    </div>
+  }
+</div>
+
+
+
+<style>
+#shopping-cart {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+.cart-item-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.pay-section {
+  display: flex;
+  align-items: center;
+}
+</style>
+
+
+
+<script>
+    const logoutBtn = document.getElementById('logout-btn');
+    logoutBtn.addEventListener('click', function() {
+        document.cookie = 'authToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+        window.location.href = '/Re-LO';
+    });
+ const cookies = document.cookie.split(';');
+let username = null;
+let userId = null;
+for (let i = 0; i < cookies.length; i++) {
+  const cookie = cookies[i].trim();
+  if (cookie.startsWith('username=')) {
+    username = cookie.substring('username='.length, cookie.length);
+  }
+  if (cookie.startsWith('userId=')) {
+    userId = cookie.substring('userId='.length, cookie.length);
+  }
+}
+
+if (username) {
+  document.getElementById('user-name').textContent = username;
+} else {
+  document.getElementById('user-name').textContent = '[unknown]';
+}
+
+
+ const payButtons = document.querySelectorAll('.pay-button');
+payButtons.forEach(button => {
+button.addEventListener('click', async () => {
+  try {
+    const response = await fetch('http://192.168.0.144:443/api/Users/UpdateSubscription?id=62&subscription=1', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    });
+
+    const result = await response.json();
+    console.log(result);
+    // Display success message to user
+  } catch (error) {
+    console.error(error);
+    // Display error message to user
+  }
+});
+});
+  
+
+</script>
+
